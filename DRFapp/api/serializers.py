@@ -1,11 +1,20 @@
 from rest_framework import serializers
-from DRFapp.models import WatchList, StreamPlatform
+from DRFapp.models import WatchList, StreamPlatform, Review
 
 
 # model serializer
 
+class ReviewSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = Review
+		fields = "__all__"
+
 
 class WatchListSerializer(serializers.ModelSerializer):
+
+	reviews = ReviewSerializer(many=True, read_only=True)
+
 
 	class Meta:
 		model = WatchList
@@ -14,7 +23,7 @@ class WatchListSerializer(serializers.ModelSerializer):
 
 class StreamPlatformSerializer(serializers.ModelSerializer):
 
-	# watchlist= serializers.HyperlinkedRelatedField(
+ # watchlist= serializers.HyperlinkedRelatedField(
  #        many=True,
  #        read_only=True,
  #        view_name='movie-details'
@@ -25,4 +34,3 @@ class StreamPlatformSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = StreamPlatform
 		fields = "__all__"
-
